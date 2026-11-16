@@ -19,7 +19,8 @@ The format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### ⚠️ Behavior Changes
 
-- **Slash commands open by default**: `/preset`, `/model`, and other admin commands were previously limited to allowlisted users; with `access.commandMode` they are open to everyone by default — set it to `allowlist` and configure the command roster to keep them restricted.
+- **Deny-by-default access control**: `access.c2cMode`, `groupMode`, and `commandMode` now all default to `allowlist` instead of `open`, with all three rosters empty. Until someone is explicitly authorized, the plugin processes no inbound message (including slash commands), so nobody who can reach the bot can drive the local agent. QR-code binding still writes the scanning user's OpenID into the direct-chat allowlist; groups and slash commands must be authorized via a pairing code or OpenID in settings. Switch a mode back to `open` explicitly if everyone should be allowed.
+- **Slash commands fail closed when unconfigured**: a missing `commandMode` (including older profiles) no longer falls back to `open`; the inbound gate also passes `allowlist` explicitly so the SDK's own `?? "open"` default cannot re-open it.
 - **Built-in prompt slimmed down**: only a one-line channel declaration is injected by default; scope rules and behavioral instructions are no longer built in — put group-specific guidance (e.g. mention discipline) into `groupPrompt`.
 
 ### Fixed

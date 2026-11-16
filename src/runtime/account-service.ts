@@ -206,7 +206,8 @@ export class AccountAccessService {
     return readProfileAccess(this.config.access, getProfileDir() ?? undefined, this.config.appId);
   }
   commandAccessError(actor?: string): string | undefined {
-    const mode = this.currentAccess().commandMode;
+    // 旧 profile 缺 commandMode 时同样按白名单处理，不得回退成 open。
+    const mode = this.currentAccess().commandMode ?? 'allowlist';
     return commandAccessError(mode, actor, mode === 'allowlist' && this.isOwner(actor));
   }
   isOwner(actor?: string): boolean { return !!actor && this.store.ownerIds().includes(actor); }

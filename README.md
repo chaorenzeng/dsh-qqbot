@@ -128,11 +128,18 @@ npx @deepseek-ai/dsh web --patch /path/to/dsh-qqbot/cordis.dev.yml
 
 | 配置 | 类型 | 默认值 | 说明 |
 |------|------|--------|------|
-| `access.c2cMode` | `open`/`allowlist`/`disabled` | `open` | 私聊访问模式 |
+| `access.c2cMode` | `open`/`allowlist`/`disabled` | `allowlist` | 私聊访问模式（默认白名单，未配置则拒绝所有人） |
 | `access.c2cAllow` | string[] | `[]` | 私聊白名单（user openid） |
-| `access.groupMode` | `open`/`allowlist`/`disabled` | `open` | 群聊访问模式 |
+| `access.groupMode` | `open`/`allowlist`/`disabled` | `allowlist` | 群聊访问模式（默认白名单，未配置则拒绝所有群） |
 | `access.groupAllow` | string[] | `[]` | 群聊白名单（group openid） |
-| `access.commandMode` | `open`/`allowlist`/`disabled` | `open` | QQ 斜杠命令模式，白名单按发送者 OpenID 独立校验 |
+| `access.commandMode` | `open`/`allowlist`/`disabled` | `allowlist` | QQ 斜杠命令模式，白名单按发送者 OpenID 独立校验 |
+
+> **默认拒绝（deny by default）**：三项模式默认均为 `allowlist`，三类白名单默认为空。刚装好并填完机器人凭据时，机器人**不会处理任何入站消息**（含斜杠命令），先授权再使用。在「设置 → QQ 机器人 → 服务范围」里添加自己的 OpenID：
+> - **私聊**：扫码绑定成功后会把扫码者的 user OpenID 自动写入 `access.c2cAllow`，通常无需手动填；
+> - **群聊**：在「群白名单」生成配对码，让目标群成员在群里 @ 机器人发送该码，或手动填入群 OpenID；
+> - **斜杠命令**：在「命令白名单」生成配对码或手动填入发送者 OpenID。
+>
+> OpenID 不是 QQ 号／群号，拿不到就用配对码。确认授权范围后，如需对所有人开放，可显式把对应模式改为 `open`。
 
 QQ 斜杠命令与群聊、私聊共用“所有人／白名单／关闭”模式：先按接入规则进入对话，再按发送者身份校验命令；审批和提问按钮沿用各自鉴权。命令白名单保存在独立的身份文件中，切换模式不影响名单。
 

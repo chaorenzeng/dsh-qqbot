@@ -253,7 +253,8 @@ describe('绑定链路 × 真实 persist 落盘（#53 回归）', () => {
     const second = fakeRes();
     await invoke(routes.get(BIND_CONFIG_PATH), fakeReq('POST', '{"requireMention":false}'), second);
     expect(second.statusCode).toBe(200);
-    expect(statSync(patchPath).mtimeMs).toBe(past.getTime()); // 无变化 → 无写 → mtime 不动
+    // APFS 的 utimes 精度会让读回的 mtimeMs 出现 ±0.001ms 浮点舍入，用容差比较避免偶发误报。
+    expect(statSync(patchPath).mtimeMs).toBeCloseTo(past.getTime(), 1); // 无变化 → 无写 → mtime 不动
   });
 
   it('配置保存（长 prompt）：超过 4KB 的请求体正常保存（#69）', async () => {

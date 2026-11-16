@@ -29,19 +29,22 @@ function fixture() {
 }
 
 describe('QQ slash-command access modes', () => {
-  it('defaults to open and rejects missing identities and unknown modes', () => {
-    expect(commandAccessError(undefined, 'member', true)).toBeUndefined();
-    expect(commandAccessError(undefined, 'outsider', false)).toBeUndefined();
+  it('denies by default and rejects missing identities and unknown modes', () => {
+    // 缺省 mode 一律拒绝，即使调用方误传 allowed=true，也不得当成 open 放行。
+    expect(commandAccessError(undefined, 'member', true)).toContain('默认拒绝');
+    expect(commandAccessError(undefined, 'outsider', false)).toContain('默认拒绝');
     expect(commandAccessError(undefined, undefined, false)).toContain('身份');
     expect(commandAccessError('open', undefined, true)).toContain('身份');
     expect(commandAccessError('unexpected', 'member', true)).toBeDefined();
   });
 
-  it('allows a non-listed sender through the default registered command handler and catalog', async () => {
+  it('denies a non-listed sender by default, and marks the catalog owner-only', async () => {
     const { deps, context } = fixture();
     const ping = buildCommandList(deps).find(command => command.name === 'bot-ping')!;
-    expect(await ping.handler(context('outsider'))).toContain('pong');
-    expect(describeCommands(deps).every(command => command.scope === 'all')).toBe(true);
+    expect(await ping.handler(context('outsider'))).toContain('白名单');
+    expect(describeCommands(deps).every(command => command.scope === 'owner')).toBe(true);
+    // 显式加入 owner 名单的用户仍可正常使用。
+    expect(await ping.handler(context('member'))).toContain('pong');
   });
 
   it.each(['c2c', 'group'] as const)('checks %s query/help/mutation handlers before execution', async kind => {

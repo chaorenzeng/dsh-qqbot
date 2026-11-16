@@ -126,10 +126,11 @@ export interface ImQQBotConfig {
 
 /** 访问控制子 Schema（独立导出：config 路由的服务端校验复用） */
 export const AccessControlSchema: Schema<AccessControlConfig> = Schema.object({
-  c2cMode: Schema.union(['open', 'allowlist', 'disabled']).default('open').description('C2C访问模式（默认开放）'),
-  commandMode: Schema.union(['open', 'allowlist', 'disabled']).default('open').description('斜杠命令模式（所有人／白名单／关闭）'),
-  c2cAllow: Schema.array(Schema.string()).default([]).description('C2C白名单（QQ OpenID）'),
-  groupMode: Schema.union(['open', 'allowlist', 'disabled']).default('open').description('群聊访问模式（默认开放：群自带进群门槛 + @bot 触发）'),
+  // 聊天桥接类插件默认「没配置就拒绝」：三项模式缺省均为 allowlist，且名单默认为空。
+  c2cMode: Schema.union(['open', 'allowlist', 'disabled']).default('allowlist').description('私聊访问模式（默认白名单：未配置时拒绝所有人）'),
+  commandMode: Schema.union(['open', 'allowlist', 'disabled']).default('allowlist').description('斜杠命令模式（所有人／白名单／关闭，默认白名单）'),
+  c2cAllow: Schema.array(Schema.string()).default([]).description('私聊白名单（QQ OpenID）'),
+  groupMode: Schema.union(['open', 'allowlist', 'disabled']).default('allowlist').description('群聊访问模式（默认白名单：未配置时拒绝所有群）'),
   groupAllow: Schema.array(Schema.string()).default([]).description('群聊白名单（群 OpenID）'),
 });
 
@@ -153,11 +154,12 @@ export const ConfigSchema: Schema<ImQQBotConfig> = Schema.object({
   askTimeoutMs: Schema.number().default(5 * 60 * 1000).description('待答问题超时(ms)，超时自动拒绝并提示'),
   historyLimit: Schema.number().default(10).description('群历史缓冲条数'),
   access: AccessControlSchema.default({
-    c2cMode: 'open',
+    c2cMode: 'allowlist',
     c2cAllow: [],
-    groupMode: 'open',
+    groupMode: 'allowlist',
     groupAllow: [],
-  }).description('访问控制'),
+    commandMode: 'allowlist',
+  }).description('访问控制（默认拒绝所有入站消息，需在设置里授权）'),
   showToolResults: Schema.boolean().default(false).description('是否展示工具调用成功结果（错误始终展示）'),
   debug: Schema.boolean().default(false),
   media: Schema.object({

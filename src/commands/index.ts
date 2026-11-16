@@ -48,7 +48,7 @@ export function buildCommandList(deps: CommandDeps): CategorizedCommand[] {
   return commands;
 }
 export function describeCommands(deps: CommandDeps): SlashCommandDescriptor[] {
-  const mode = deps.manager.accountAccess?.currentAccess().commandMode ?? deps.config.access.commandMode ?? 'open';
+  const mode = deps.manager.accountAccess?.currentAccess().commandMode ?? deps.config.access.commandMode ?? 'allowlist';
   return buildCommandList(deps).map((command): SlashCommandDescriptor => {
     const names = Array.isArray(command.name) ? command.name : [command.name];
     return {

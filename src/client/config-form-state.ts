@@ -32,7 +32,7 @@ const EDITABLE_KEYS = ['access', 'requireMention', 'streaming', 'showToolResults
 const ACCESS_KEYS = ['c2cMode', 'c2cAllow', 'groupMode', 'groupAllow', 'commandMode'] as const;
 
 export const DEFAULT_ACCESS: AccessControlWire = {
-  c2cMode: 'open', c2cAllow: [], groupMode: 'open', groupAllow: [], commandMode: 'open',
+  c2cMode: 'allowlist', c2cAllow: [], groupMode: 'allowlist', groupAllow: [], commandMode: 'allowlist',
 };
 
 function equal(a: unknown, b: unknown): boolean {

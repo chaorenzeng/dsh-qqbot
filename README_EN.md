@@ -126,11 +126,18 @@ Slash commands and answers to pending questions always bypass the queue. Saving 
 
 | Config | Type | Default | Description |
 |------|------|--------|------|
-| `access.c2cMode` | `open`/`allowlist`/`disabled` | `open` | Direct-chat access mode |
+| `access.c2cMode` | `open`/`allowlist`/`disabled` | `allowlist` | Direct-chat access mode (deny-by-default when unconfigured) |
 | `access.c2cAllow` | string[] | `[]` | Direct-chat allowlist (user openid) |
-| `access.groupMode` | `open`/`allowlist`/`disabled` | `open` | Group access mode |
+| `access.groupMode` | `open`/`allowlist`/`disabled` | `allowlist` | Group access mode (deny-by-default when unconfigured) |
 | `access.groupAllow` | string[] | `[]` | Group allowlist (group openid) |
-| `access.commandMode` | `open`/`allowlist`/`disabled` | `open` | Slash-command mode; the allowlist is checked per sender OpenID |
+| `access.commandMode` | `open`/`allowlist`/`disabled` | `allowlist` | Slash-command mode; the allowlist is checked per sender OpenID |
+
+> **Deny by default**: all three modes default to `allowlist` and all three rosters start empty. Right after installing the plugin and filling in the bot credentials, **no inbound message is processed** (including slash commands) until you authorize someone. Add your OpenID under *Settings → QQ Bot → Service scope*:
+> - **Direct chat**: QR-code binding automatically writes the scanning user's OpenID into `access.c2cAllow`, so this is normally already done for you;
+> - **Groups**: generate a pairing code under "Group allowlist" and have a member send it in the target group with an @mention, or paste the group OpenID manually;
+> - **Slash commands**: generate a pairing code under "Command allowlist" or paste the sender OpenID manually.
+>
+> An OpenID is not a QQ number or group number; use a pairing code when it is unavailable. Once you have verified the grants, you may explicitly switch a mode to `open` if everyone should be allowed.
 
 Slash commands share the same open / allowlist / disabled modes as chats: a message first passes the chat admission rules, then the command is authorized by sender identity. Approval and question buttons keep their own authorization. The command roster lives in a separate identity file, so switching the mode never drops the list.
 

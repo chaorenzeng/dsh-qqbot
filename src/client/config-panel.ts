@@ -354,11 +354,11 @@ export function ConfigPanel({ bindPhase }: ConfigPanelProps = {}): ReactNode {
       }),
       access.groupMode === 'allowlist' ? createElement(PairClaimPanel, { purpose: 'allow-group', title: '群白名单', enabled: bindPhase === 'bound', onChange: retry, hint: '生成配对码，让群成员在群里 @ 机器人后直接发送这个码，即把该群加入白名单。' }) : null,
       createElement(SegmentedRow, { disabled: busy,
-        label: '斜杠命令', value: access.commandMode ?? 'open', options: MODE_OPTIONS,
+        label: '斜杠命令', value: access.commandMode ?? 'allowlist', options: MODE_OPTIONS,
         help: '仅在获准接入的对话中生效。所有人模式允许成员切换模型、开始新会话等，影响该群的共享会话。审批和提问按钮按各自权限处理。',
         onChange: value => { patch('access', { ...access, commandMode: value }); },
       }),
-      (access.commandMode ?? 'open') === 'allowlist' ? createElement(PairClaimPanel, {
+      (access.commandMode ?? 'allowlist') === 'allowlist' ? createElement(PairClaimPanel, {
         purpose: 'owner', title: '命令白名单', enabled: bindPhase === 'bound', onChange: retry,
         hint: '名单按发送者 OpenID 校验，适用于获准接入的群聊和私聊。保存模式与管理名单分别生效。',
       }) : null,
