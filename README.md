@@ -4,7 +4,7 @@
 
 **基于 [deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (dsh) 的 QQ Bot 插件，将 DeepSeek AI 助手接入 QQ 私聊与群聊。**
 
-[![npm version](https://img.shields.io/npm/v/@tencent-connect/dsh-qqbot)](https://www.npmjs.com/package/@tencent-connect/dsh-qqbot)
+[![npm version](https://img.shields.io/npm/v/@chaorenzeng/dsh-qqbot)](https://www.npmjs.com/package/@chaorenzeng/dsh-qqbot)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/tencent-connect/dsh-qqbot)](https://github.com/tencent-connect/dsh-qqbot)
 [![QQ Bot](https://img.shields.io/badge/QQ_Bot-API_v2-red)](https://bot.q.qq.com/wiki/)
@@ -39,7 +39,7 @@ QQ 用户 → QQ WebSocket → dsh-qqbot → ctx.agents → dsh agent loop → L
 
 无需命令行，全程在应用内完成：
 
-1. **安装**：左侧栏点击「插件」→「添加插件」→ 输入 `@tencent-connect/dsh-qqbot@latest` → 安装并立即启动
+1. **安装**：左侧栏点击「插件」→「添加插件」→ 输入 `@chaorenzeng/dsh-qqbot@latest` → 安装并立即启动
 
 <img src="./assets/docs/install.png" alt="端内添加插件" width="560" />
 
@@ -53,7 +53,7 @@ QQ 用户 → QQ WebSocket → dsh-qqbot → ctx.agents → dsh agent loop → L
 
 ```bash
 # 安装到 profile
-npx @deepseek-ai/dsh plugin --profile qqbot add @tencent-connect/dsh-qqbot
+npx @deepseek-ai/dsh plugin --profile qqbot add @chaorenzeng/dsh-qqbot
 
 # 启动
 npx @deepseek-ai/dsh --profile qqbot

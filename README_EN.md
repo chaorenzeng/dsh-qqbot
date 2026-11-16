@@ -4,7 +4,7 @@
 
 **A QQ Bot plugin for [deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) (dsh), connecting DeepSeek AI assistants to QQ private and group chats.**
 
-[![npm version](https://img.shields.io/npm/v/@tencent-connect/dsh-qqbot)](https://www.npmjs.com/package/@tencent-connect/dsh-qqbot)
+[![npm version](https://img.shields.io/npm/v/@chaorenzeng/dsh-qqbot)](https://www.npmjs.com/package/@chaorenzeng/dsh-qqbot)
 [![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 [![GitHub stars](https://img.shields.io/github/stars/tencent-connect/dsh-qqbot)](https://github.com/tencent-connect/dsh-qqbot)
 [![QQ Bot](https://img.shields.io/badge/QQ_Bot-API_v2-red)](https://bot.q.qq.com/wiki/)
@@ -39,7 +39,7 @@ QQ User → QQ WebSocket → dsh-qqbot → ctx.agents → dsh agent loop → LLM
 
 No command line needed — everything happens inside the app:
 
-1. **Install**: click "Plugins" in the left sidebar → "Add plugin" → enter `@tencent-connect/dsh-qqbot@latest` → install and start now
+1. **Install**: click "Plugins" in the left sidebar → "Add plugin" → enter `@chaorenzeng/dsh-qqbot@latest` → install and start now
 
 <img src="./assets/docs/install.png" alt="In-app plugin install" width="560" />
 
@@ -53,7 +53,7 @@ Credentials are saved automatically after the scan; later launches need no re-sc
 
 ```bash
 # Add to a profile
-npx @deepseek-ai/dsh plugin --profile qqbot add @tencent-connect/dsh-qqbot
+npx @deepseek-ai/dsh plugin --profile qqbot add @chaorenzeng/dsh-qqbot
 
 # Start
 npx @deepseek-ai/dsh --profile qqbot
